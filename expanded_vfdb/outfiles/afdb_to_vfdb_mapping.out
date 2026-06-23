@@ -1,0 +1,25 @@
+import pandas as pd
+from Bio import SeqIO
+evfdb_ids = [r.id for r in SeqIO.parse("expanded_vfdb.fasta","fasta")]
+evfdb_ids[:3]
+final_preds_path = '/gpfs/data/pirontilab/Students/Madu/bigdreams_dl/vfdb_fastas/vfdb_mappings/afdb_vfid_nns_mapping_aln_info.tsv'
+final_preds = pd.read_csv(final_preds_path, sep='\t',low_memory=False).reset_index(drop=True)
+final_preds.head()
+[rid for rid in evfdb_ids if 'VFG' in rid][:5]
+final_preds[final_preds['afdb'].str.contains('VFG')]
+final_preds_sub = final_preds[final_preds['afdb'].isin(evfdb_ids)]
+final_preds_sub.shape,final_preds.shape
+final_preds_sub.drop_duplicates(subset=['query','afdb'],inplace=True)
+final_preds_sub.shape,final_preds.shape
+final_preds_sub.drop(columns=['rep','multi_cat','strain'],inplace=True)
+final_preds_sub.head()
+final_preds_sub.iloc[:,3:-3].head()
+final_preds_sub.rename(columns={'vf_subcategory': 'VF_subcategory_high','VF subcategory':'VF subcategory_low'},inplace=True)
+final_preds_sub.iloc[:,3:-3].head()
+final_preds_sub.to_csv('afdb_to_vfdb_mapping.tsv',sep="\t",index=False)
+import readline
+with open("python_session_history.txt", "w") as f:
+	for i in range(1, readline.get_current_history_length() + 1):
+		cmd = readline.get_history_item(i)
+		if cmd:
+			f.write(cmd + "\n")
