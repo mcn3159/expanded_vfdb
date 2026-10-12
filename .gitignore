@@ -1,6 +1,10 @@
-outfiles/
+# Mac metadata files
+.DS_Store
+._*
+
+# Jupyter notebooks
 divi_numbers.ipynb
-._afdb_to_vfdb_mapping.tsv
-._category_assignments_all.tsv
-._divi_numbers.ipynb
-._.DS_Store
+.ipynb_checkpoints/
+
+# Generated output
+outfiles/
